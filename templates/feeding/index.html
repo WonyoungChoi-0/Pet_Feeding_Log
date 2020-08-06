@@ -1,0 +1,29 @@
+{% extends "feeding/base.html" %}
+{% load static %}
+
+{% block head %}
+  <link rel="stylesheet" href="{% static 'css/index.css' %}">
+  <title>My Pets</title>
+{% endblock %}
+
+{% block body_block %}
+  <div class="jumbotron">
+    <div class="media">
+      <div class="media-left">
+        <a href="#">
+          <img id='profile' class="media-object" src="{% static 'images/Hunter Profile Pic.JPG' %}" alt="Picture of Hunter">
+        </a>
+      </div>
+      <div class="media-body">
+        <h1 class="media-heading">Hunter</h1>
+        <p class="info">
+          <b>Species:</b> Leopard Gecko <br>
+          <b>Morph:</b> Wild <br>
+          <b>Age:</b> 12 <br>
+          <b>Diet:</b> Mealworms, Crickets, Superworms, Waxworms
+        </p>
+        <a href="{% url 'feeding:feeding_schedule' %}"><input id="feeding-button" class="btn btn-primary" type="submit" value="Feeding Schedule"></a>
+      </div>
+    </div>
+  </div>
+{% endblock %}

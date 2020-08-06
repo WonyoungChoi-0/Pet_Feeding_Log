@@ -1,0 +1,12 @@
+#profile{
+  border-radius: 10px;
+  max-width: 200px;
+}
+
+.jumbotron{
+  margin-top: 20px;
+}
+
+.media-heading, .info, #feeding-button{
+  margin-left: 10px;
+}

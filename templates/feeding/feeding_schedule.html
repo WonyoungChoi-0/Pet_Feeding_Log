@@ -1,0 +1,43 @@
+{% extends "feeding/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block head %}
+  <link rel="stylesheet" href="{% static 'css/feeding_schedule.css' %}">
+  <title>My Feeding Schedule</title>
+{% endblock %}
+
+{% block body_block %}
+<div class="jumbotron">
+  <div class="media">
+    <div class="media-left">
+      <a href="#">
+        <img id='profile' class="media-object" src="{% static 'images/Hunter Profile Pic.JPG' %}" alt="Picture of Hunter">
+      </a>
+    </div>
+    <div class="media-body">
+      <h1 class="media-heading">Hunter</h1>
+        <form method="POST" class="info" novalidate>
+          {{ feeding_form|crispy }}
+          {% csrf_token %}
+          <input type="submit" class='btn btn-success' name="form" value="Submit">
+        </form>
+    </div>
+  </div>
+</div>
+
+{% if feeding_entries %}
+ {% for entry in feeding_entries %}
+   <div class="jumbotron">
+     <form action="{% url 'feeding:delete_entry' entry.pk %}" method="post">
+       <h3> <b>Date: {{ entry.date }}</b> </h3>
+       <h4> Supplement: {{ entry.supplement }} </h4>
+       <h4> Notes: {{ entry.notes }}</h4>
+       <input type="submit" class="btn btn-danger" value="Delete"></button>
+       {% csrf_token %}
+     </form>
+   </div>
+ {% endfor %}
+{% endif %}
+
+{% endblock %}
