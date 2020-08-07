@@ -1,0 +1,16 @@
+{% extends "feeding/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block head %}
+  <link rel="stylesheet" href="{% static 'css/register_pet.css' %}">
+  <title>Register My Pet</title>
+{% endblock %}
+
+{% block body_block %}
+  <form method="POST" class="info" enctype="multipart/form-data" novalidate>
+    {{ form|crispy }}
+    {% csrf_token %}
+    <input type="submit" class='btn btn-success' name="form" value="Submit">
+  </form>
+{% endblock %}
