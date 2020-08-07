@@ -29,11 +29,11 @@
 {% if feeding_entries %}
  {% for entry in feeding_entries %}
    <div class="jumbotron">
-     <form action="{% url 'feeding:delete_entry' entry.pk %}" method="post">
-       <h3> <b>Date: {{ entry.date }}</b> </h3>
-       <h4> Supplement: {{ entry.supplement }} </h4>
-       <h4> Notes: {{ entry.notes }}</h4>
-       <input type="submit" class="btn btn-danger" value="Delete"></button>
+     <form action="{% url 'feeding:delete' entry.pk %}" method="post">
+       <h2> <b>Date: {{ entry.date }}</b> </h3>
+       <h3> Notes: {{ entry.notes|linebreaks }}</h3>
+       <a href="/edit_entry/{{ entry.pk }}" type="submit" class="btn btn-primary" name="edit_pet">Edit Entry</a>
+       <input type="submit" class="btn btn-danger" value="Delete" name="delete_entry" onclick="return confirm('Are you sure you want to delete this?')"></button>
        {% csrf_token %}
      </form>
    </div>

@@ -1,0 +1,26 @@
+{% extends "feeding/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block head %}
+  <link rel="stylesheet" href="{% static 'css/index.css' %}">
+  <title>Edit {{ pet.name }} Profile</title>
+{% endblock %}
+
+{% block body_block %}
+  <div class="jumbotron">
+    <div class="media">
+      <div class="media-left">
+        <img id='profile' class="media-object" src="{{ pet.profile_pic.url }}" alt="Picture of {{ pet.name }}">
+      </div>
+      <div class="media-body">
+        <h1 class="media-heading"></h1>
+          <form method="POST" class="info" novalidate>
+            {{ form|crispy }}
+            {% csrf_token %}
+            <input type="submit" class='btn btn-success' name="form" value="Submit">
+          </form>
+      </div>
+    </div>
+  </div>
+{% endblock body_block %}

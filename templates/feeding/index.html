@@ -7,23 +7,29 @@
 {% endblock %}
 
 {% block body_block %}
-  <div class="jumbotron">
-    <div class="media">
-      <div class="media-left">
-        <a href="#">
-          <img id='profile' class="media-object" src="{% static 'images/Hunter Profile Pic.JPG' %}" alt="Picture of Hunter">
-        </a>
+  {% if pets %}
+    {% for pet in pets %}
+      <div class="jumbotron">
+        <div class="media">
+          <div class="media-left">
+            <img id='profile' class="media-object" src="{{ pet.profile_pic.url }}" alt="Picture of {{ pet.name }}">
+          </div>
+          <div class="media-body">
+            <h1 class="media-heading">{{ pet.name }}</h1>
+            <p class="info">
+              <b>Species:</b> {{ pet.species }} <br>
+              <b>Age:</b> {{ pet.age }} <br>
+              <b>Diet:</b> {{ pet.diet }}
+            </p>
+            <form action="{% url 'feeding:delete' pet.pk %}" method="post">
+              <a href="/feeding_schedule" type="submit" class="btn btn-primary" id="feeding-button" name="feeding_schedule">Feeding Schedule</a>
+              <a href="/edit_pet/{{ pet.pk }}" type="submit" class="btn btn-primary" name="edit_pet">Edit Pet Profile</a>
+              <input type="submit" class="btn btn-danger" value="Delete" name="delete_pet" onclick="return confirm('Are you sure you want to delete this?')"></button>
+              {% csrf_token %}
+            </form>
+          </div>
+        </div>
       </div>
-      <div class="media-body">
-        <h1 class="media-heading">Hunter</h1>
-        <p class="info">
-          <b>Species:</b> Leopard Gecko <br>
-          <b>Morph:</b> Wild <br>
-          <b>Age:</b> 12 <br>
-          <b>Diet:</b> Mealworms, Crickets, Superworms, Waxworms
-        </p>
-        <a href="{% url 'feeding:feeding_schedule' %}"><input id="feeding-button" class="btn btn-primary" type="submit" value="Feeding Schedule"></a>
-      </div>
-    </div>
-  </div>
+    {% endfor %}
+  {% endif %}
 {% endblock %}
