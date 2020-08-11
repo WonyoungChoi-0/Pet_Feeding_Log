@@ -9,22 +9,23 @@ def index(request):
     pets = Pet.objects.order_by('name')
     return render(request, 'feeding/index.html', {'pets':pets})
 
-def feeding_schedule(request):
+def feeding_schedule(request, pk):
 
+    pet = Pet.objects.get(pk=pk)
     form = Feeding_Entry_Form()
 
     if 'form' in request.POST:
         form = Feeding_Entry_Form(request.POST)
-
+        form.instance.pet_id = pk
         if form.is_valid():
             form.save(commit=True)
-            return HttpResponseRedirect('/feeding_schedule/')
+            return HttpResponseRedirect(reverse('feeding:feeding_schedule2', kwargs={'pk':pk}))
         else:
             print('ERROR FORM INVALID')
+    feeding_entries = Feeding_Entry.objects.filter(pet=pk)
+    feeding_entries = feeding_entries.order_by('-date')
 
-    feeding_entries = Feeding_Entry.objects.order_by('-date')
-
-    return render(request, 'feeding/feeding_schedule.html', {'feeding_form':form, 'feeding_entries':feeding_entries})
+    return render(request, 'feeding/feeding_schedule.html', {'pet':pet,'feeding_form':form, 'feeding_entries':feeding_entries})
 
 def delete(request, pk):
     if request.method == 'POST':
@@ -75,7 +76,7 @@ def register_pet(request):
                 form.profile_pic = request.FILES['profile_pic']
                 print('success')
             form.save(commit=True)
-            return HttpResponseRedirect('/register_pet')
+            return HttpResponseRedirect('/')
         else:
             print(form.errors)
 

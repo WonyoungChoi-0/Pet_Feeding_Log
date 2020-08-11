@@ -1,12 +1,6 @@
 from django.db import models
 
 # Create your models here.
-class Feeding_Entry(models.Model):
-    date = models.DateField()
-    notes = models.TextField()
-
-    def __str__(self):
-        return "Feeding Entry: " + str(self.date)
 
 class Pet(models.Model):
     name = models.CharField(max_length=128)
@@ -17,3 +11,11 @@ class Pet(models.Model):
 
     def __str__(self):
         return str(self.name) + " (" + str(self.species) + ")"
+
+class Feeding_Entry(models.Model):
+    pet = models.ForeignKey('Pet', on_delete=models.CASCADE)
+    date = models.DateField()
+    notes = models.TextField()
+
+    def __str__(self):
+        return str(self.pet.name) + " Feeding Entry: " + str(self.date)

@@ -9,12 +9,10 @@
   </head>
 
   <body>
-    <nav class="navbar navbar-default navbar-static-top">
+    <nav class="navbar navbar-inverse navbar-static-top">
       <div class="container">
+        <a class="navbar-brand"> <a class="navbar-brand" href="{% url 'feeding:index' %}">My Pets</a>
         <ul class="nav navbar-nav">
-          <div class="navbar-header">
-            <li class="navbar-brand"> <a href="{% url 'feeding:index' %}">My Pets</a> </li>
-          </div>
           <li class ="navbar-link"> <a href="{% url 'admin:index' %}">Admin</a> </li>
           <li class ="navbar-link"> <a href="{% url 'feeding:register_pet' %}">Register a Pet</a> </li>
         </ul>
