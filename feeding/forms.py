@@ -4,7 +4,7 @@ from feeding.models import Feeding_Entry, Pet
 class Feeding_Entry_Form(forms.ModelForm):
     class Meta():
         model = Feeding_Entry
-        fields = '__all__'
+        fields = ('date', 'notes')
 
 class Pet_Form(forms.ModelForm):
     class Meta():

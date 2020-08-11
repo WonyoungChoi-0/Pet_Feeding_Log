@@ -4,7 +4,7 @@
 
 {% block head %}
   <link rel="stylesheet" href="{% static 'css/feeding_schedule.css' %}">
-  <title>My Feeding Schedule</title>
+  <title>{{ pet.name }} Feeding Schedule</title>
 {% endblock %}
 
 {% block body_block %}
@@ -12,11 +12,11 @@
   <div class="media">
     <div class="media-left">
       <a href="#">
-        <img id='profile' class="media-object" src="{% static 'images/Hunter Profile Pic.JPG' %}" alt="Picture of Hunter">
+        <img id='profile' class="media-object" src="{{ pet.profile_pic.url }}" alt="Picture of {{ pet.name }}">
       </a>
     </div>
     <div class="media-body">
-      <h1 class="media-heading">Hunter</h1>
+      <h1 class="media-heading">{{ pet.name }}</h1>
         <form method="POST" class="info" novalidate>
           {{ feeding_form|crispy }}
           {% csrf_token %}
