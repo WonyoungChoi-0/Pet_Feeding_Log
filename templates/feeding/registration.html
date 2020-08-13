@@ -1,0 +1,20 @@
+{% extends "feeding/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block head %}
+  <link rel="stylesheet" href="{% static 'css/register.css' %}">
+  <title>Register</title>
+{% endblock head %}
+
+{% block body_block %}
+  <div class="jumbotron">
+    <form method="POST" class="info" novalidate>
+      <h2><b>Sign Up </b></h2> <br>
+      {{ user_form|crispy }}
+      {% csrf_token %}
+      <input type="submit" class='btn btn-success' name="form" value="Sign Up"> <br>
+      <a href="{% url 'feeding:user_login'%}">Login</a>
+    </form>
+  </div>
+{% endblock body_block %}

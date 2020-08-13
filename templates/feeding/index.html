@@ -31,5 +31,11 @@
         </div>
       </div>
     {% endfor %}
+    {% else %}
+      <div class="jumbotron">
+        <h2>You Currently Have No Registered Pets</h2>
+        <a href="{% url 'feeding:register_pet' %}" class='btn btn-primary'>Register A Pet</a>
+      </div>
   {% endif %}
+
 {% endblock %}
