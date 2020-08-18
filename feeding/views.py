@@ -41,9 +41,10 @@ def delete(request, pk):
             entry = Feeding_Entry.objects.get(pk=pk)
             entry.delete()
             return HttpResponseRedirect(reverse('feeding:feeding_schedule', kwargs={'pk':entry.pet.id}))
-        if 'delete_pet' in request.POST:
-            pet = Pet.objects.get(pk=pk)
-            pet.delete()
+    else:
+        pet = Pet.objects.get(pk=pk)
+        pet.delete()
+
     return HttpResponseRedirect(reverse('feeding:index'))
 
 @login_required
@@ -53,8 +54,10 @@ def edit_pet(request, pk):
     form = Pet_Form(instance=pet)
 
     if request.method == "POST":
-        form = Pet_Form(request.POST, instance=pet)
+        form = Pet_Form(request.POST, request.FILES, instance=pet)
         if form.is_valid():
+            if 'profile_pic' in request.FILES:
+                form.profile_pic = request.FILES['profile_pic']
             form.save(commit=True)
             return HttpResponseRedirect(reverse('feeding:index'))
         else:
@@ -78,9 +81,8 @@ def edit_entry(request, pk):
 @login_required
 def register_pet(request):
 
-    form = Pet_Form(request.POST, request.FILES)
-
     if request.method == "POST":
+        form = Pet_Form(request.POST, request.FILES)
         form.instance.user = request.user
         if form.is_valid():
             if 'profile_pic' in request.FILES:
@@ -89,6 +91,8 @@ def register_pet(request):
             return HttpResponseRedirect(reverse('feeding:index'))
         else:
             print(form.errors)
+    else:
+        form = Pet_Form()
 
     return render(request, 'feeding/register_pet.html', {'form':form})
 
@@ -119,7 +123,7 @@ def register(request):
                                 {'user_form':user_form, 'registered':registered})
 
 def user_login(request):
-
+    form = User_Login()
     if request.method == 'POST':
 
         user_login = User_Login(data=request.POST)
@@ -128,22 +132,21 @@ def user_login(request):
             username = user_login.cleaned_data['email']
             password = user_login.cleaned_data['password']
 
-        user = authenticate(username=username, password=password)
+            user = authenticate(username=username, password=password)
 
-        if user:
-            if user.is_active:
-                login(request, user)
-                return HttpResponseRedirect(reverse('feeding:index'))
+            if user:
+                if user.is_active:
+                    login(request, user)
+                    return HttpResponseRedirect(reverse('feeding:index'))
+                else:
+                    return HttpResponse('ACCOUNT NOT ACTIVE')
+
             else:
-                return HttpResponse('ACCOUNT NOT ACTIVE')
-
+                print(user_login.errors)
+                messages.error(request,'email or password not correct')
+                return HttpResponseRedirect(reverse('feeding:user_login'))
         else:
-            print('someone tried to login and failed')
-            print('Username: ' + str(username) + ' Password: ' + str(password))
             messages.error(request,'email or password not correct')
-            return HttpResponseRedirect(reverse('feeding:user_login'))
-    else:
-        form = User_Login()
 
     return render(request, 'feeding/login.html', {'form': form})
 

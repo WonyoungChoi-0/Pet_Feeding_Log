@@ -2,6 +2,7 @@ from django import forms
 from feeding.models import Feeding_Entry, Pet
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
+from django.contrib.auth import authenticate
 
 class Feeding_Entry_Form(forms.ModelForm):
     class Meta():
@@ -47,4 +48,4 @@ class User_Form(forms.ModelForm):
 
 class User_Login(forms.Form):
     email = forms.CharField(max_length=256, required=True)
-    password = forms.CharField(widget=forms.PasswordInput())
+    password = forms.CharField(widget=forms.PasswordInput(), required=True)
