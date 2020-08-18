@@ -29,7 +29,7 @@
 {% if feeding_entries %}
  {% for entry in feeding_entries %}
    <div class="jumbotron">
-     <form action="{% url 'feeding:delete' entry.pk %}" method="post">
+     <form action="{% url 'feeding:delete_pet' entry.pk %}" method="post">
        <h2> <b>Date: {{ entry.date }}</b> </h3>
        <h3> Notes: {{ entry.notes|linebreaks }}</h3>
        <a href="/edit_entry/{{ entry.pk }}" type="submit" class="btn btn-primary" name="edit_entry">Edit Entry</a>
